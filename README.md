@@ -13,7 +13,7 @@ Check jora [tutorial](https://discoveryjs.github.io/jora/#article:getting-starte
 
 ### jora Manual examples
 
-![jora-manual-examples](https://raw.githubusercontent.com/obenjiro/vscode-jora-playground/master/images/general-demo.gif)
+![jora-manual-examples](https://raw.githubusercontent.com/obenjiro/vscode-jora-playground/master/images/main.gif)
 
 ### Usage example
 

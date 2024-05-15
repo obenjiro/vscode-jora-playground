@@ -35,7 +35,7 @@ const insertFilterToJqPlayground = (
         editor.edit((editorBuilder) => {
           editorBuilder.insert(
             new vscode.Position(document.lineCount, 0),
-            `\n\njq '${filter}'\n${activeTextEditor.document.fileName}`,
+            `\n\njq ${filter}\n${activeTextEditor.document.fileName}`,
           );
         });
         const newPosition = editor.selection.active.with(
@@ -61,7 +61,7 @@ const insertFilterToJqPlayground = (
 export default function inputBoxFilter() {
   let rememberInput = "";
   return (saveFilterToPlayground: boolean) => async (): Promise<void> => {
-    const filter = (await askFilter(rememberInput)) || ".";
+    const filter = (await askFilter(rememberInput)) || "$";
 
     rememberInput = filter;
 
