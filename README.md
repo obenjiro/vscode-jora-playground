@@ -4,11 +4,6 @@ A fork of vscode-jora-playground. Create a notebook with power of [jora](https:/
 
 Check jora [tutorial](https://discoveryjs.github.io/jora/#article:getting-started&!anchor=your-first-query) or [examples](https://discoveryjs.github.io/jora/#article:jora-syntax-complex-examples)
 
-[![Latest Release](https://vsmarketplacebadge.apphb.com/version-short/obenjiro.vscode-jora-playground.svg)](https://marketplace.visualstudio.com/items?itemName=obenjiro.vscode-jora-playground)
-[![Installs](https://vsmarketplacebadge.apphb.com/installs-short/obenjiro.vscode-jora-playground.svg)](https://marketplace.visualstudio.com/items?itemName=obenjiro.vscode-jora-playground)
-[![Installs](https://vsmarketplacebadge.apphb.com/downloads-short/obenjiro.vscode-jora-playground.svg)](https://marketplace.visualstudio.com/items?itemName=obenjiro.vscode-jora-playground)
-[![Rating](https://vsmarketplacebadge.apphb.com/rating-short/obenjiro.vscode-jora-playground.svg)](https://marketplace.visualstudio.com/items?itemName=obenjiro.vscode-jora-playground)
-
 [![Open issues](https://img.shields.io/github/issues/obenjiro/vscode-jora-playground)](https://img.shields.io/github/issues/obenjiro/vscode-jora-playground)
 [![Closed issues](https://img.shields.io/github/issues-closed/obenjiro/vscode-jora-playground)](https://img.shields.io/github/issues-closed/obenjiro/vscode-jora-playground)
 
