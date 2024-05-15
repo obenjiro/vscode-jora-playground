@@ -9,7 +9,7 @@ const getEditorText = (editor: vscode.TextEditor): string =>
 
 const askFilter = async (rememberInput: string) => {
   const params = {
-    prompt: "Enter a jq filter",
+    prompt: "Enter a jora filter",
     value: rememberInput,
   } as vscode.InputBoxOptions;
 
@@ -25,7 +25,7 @@ const insertFilterToJqPlayground = (
     return Promise.resolve();
   }
   const document = vscode.workspace.textDocuments.find(
-    (doc) => doc.languageId === "jqpg" && doc.isUntitled,
+    (doc) => doc.languageId === "jorapg" && doc.isUntitled,
   );
 
   if (document) {
@@ -48,8 +48,8 @@ const insertFilterToJqPlayground = (
   }
   return vscode.workspace
     .openTextDocument({
-      content: `jq '${filter}'\n${activeTextEditor.document.fileName}`,
-      language: "jqpg",
+      content: `jora '${filter}'\n${activeTextEditor.document.fileName}`,
+      language: "jorapg",
     })
 
     .then((doc) =>

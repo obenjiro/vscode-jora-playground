@@ -1,91 +1,88 @@
-# VSCode jq playground
+# VSCode jora playground
 
-Create a notebook with power of [jq](https://stedolan.github.io/jq/) filters and the power of jq playground extension
+A fork of vscode-jora-playground. Create a notebook with power of [jora](https://github.com/discoveryjs/jora).
 
-Check jq [tutorial](https://stedolan.github.io/jq/tutorial/) or [manual](https://stedolan.github.io/jq/manual/v1.6/)
+Check jora [tutorial](https://discoveryjs.github.io/jora/#article:getting-started&!anchor=your-first-query) or [examples](https://discoveryjs.github.io/jora/#article:jora-syntax-complex-examples)
 
-[![Latest Release](https://vsmarketplacebadge.apphb.com/version-short/davidnussio.vscode-jq-playground.svg)](https://marketplace.visualstudio.com/items?itemName=davidnussio.vscode-jq-playground)
-[![Installs](https://vsmarketplacebadge.apphb.com/installs-short/davidnussio.vscode-jq-playground.svg)](https://marketplace.visualstudio.com/items?itemName=davidnussio.vscode-jq-playground)
-[![Installs](https://vsmarketplacebadge.apphb.com/downloads-short/davidnussio.vscode-jq-playground.svg)](https://marketplace.visualstudio.com/items?itemName=davidnussio.vscode-jq-playground)
-[![Rating](https://vsmarketplacebadge.apphb.com/rating-short/davidnussio.vscode-jq-playground.svg)](https://marketplace.visualstudio.com/items?itemName=davidnussio.vscode-jq-playground)
+[![Latest Release](https://vsmarketplacebadge.apphb.com/version-short/obenjiro.vscode-jora-playground.svg)](https://marketplace.visualstudio.com/items?itemName=obenjiro.vscode-jora-playground)
+[![Installs](https://vsmarketplacebadge.apphb.com/installs-short/obenjiro.vscode-jora-playground.svg)](https://marketplace.visualstudio.com/items?itemName=obenjiro.vscode-jora-playground)
+[![Installs](https://vsmarketplacebadge.apphb.com/downloads-short/obenjiro.vscode-jora-playground.svg)](https://marketplace.visualstudio.com/items?itemName=obenjiro.vscode-jora-playground)
+[![Rating](https://vsmarketplacebadge.apphb.com/rating-short/obenjiro.vscode-jora-playground.svg)](https://marketplace.visualstudio.com/items?itemName=obenjiro.vscode-jora-playground)
 
-[![Open issues](https://img.shields.io/github/issues/davidnussio/vscode-jq-playground)](https://img.shields.io/github/issues/davidnussio/vscode-jq-playground)
-[![Closed issues](https://img.shields.io/github/issues-closed/davidnussio/vscode-jq-playground)](https://img.shields.io/github/issues-closed/davidnussio/vscode-jq-playground)
+[![Open issues](https://img.shields.io/github/issues/obenjiro/vscode-jora-playground)](https://img.shields.io/github/issues/obenjiro/vscode-jora-playground)
+[![Closed issues](https://img.shields.io/github/issues-closed/obenjiro/vscode-jora-playground)](https://img.shields.io/github/issues-closed/obenjiro/vscode-jora-playground)
 
 ## Demo
 
-### JQ Manual examples
+### jora Manual examples
 
-![jq-manual-examples](https://raw.githubusercontent.com/davidnussio/vscode-jq-playground/master/images/general-demo.gif)
+![jora-manual-examples](https://raw.githubusercontent.com/obenjiro/vscode-jora-playground/master/images/general-demo.gif)
 
 ### Usage example
 
 #### Create playground from filter
 
-![vscode-jq-payground](https://github.com/davidnussio/vscode-jq-playground/raw/master/images/inputbox-1.gif)
+![vscode-jora-payground](https://github.com/obenjiro/vscode-jora-playground/raw/master/images/inputbox-1.gif)
 
 #### Filter json on the fly
 
-![vscode-jq-payground](https://github.com/davidnussio/vscode-jq-playground/raw/master/images/inputbox-2.gif)
+![vscode-jora-payground](https://github.com/obenjiro/vscode-jora-playground/raw/master/images/inputbox-2.gif)
 
-![vscode-jq-payground](https://raw.githubusercontent.com/davidnussio/vscode-jq-playground/master/images/example_multiline.gif)
+![vscode-jora-payground](https://raw.githubusercontent.com/obenjiro/vscode-jora-playground/master/images/example_multiline.gif)
 
-![vscode-jq-playground](https://github.com/davidnussio/vscode-jq-playground/raw/master/images/buffers-examples.gif)
+![vscode-jora-playground](https://github.com/obenjiro/vscode-jora-playground/raw/master/images/buffers-examples.gif)
 
 #### Autocomplete with inline documentation
 
 ![Autocomplete](https://media.giphy.com/media/eHFSm80lXQnxQe2D64/giphy.gif)
 
-[**_ More examples _**](https://davidnussio.github.io/vscode-jq-playground/)
+[**_ More examples _**](https://obenjiro.github.io/vscode-jora-playground/)
 
 ## Main Features
 
-- Create notebook with multiple executable jq filters in one file
+- Create notebook with multiple executable jora filters in one file
 - Support different data inputs:
   - json text
-  - string
-  - url
+  - javascript string
   - file
-  - workspace buffer and file
-  - command line (limited)
 - Support [input variable](https://code.visualstudio.com/docs/editor/variables-reference#_input-variables)
 - Redirect output
 - Command lines as input with variables support
 - Highlighting code
 - Autocomplete with documentation and examples
 - Open command filter result in output console or in new buffer
-- Open examples from jq manual and run it (ctrl+shift+p → jq playground: Examples)
+- Open examples from jora manual and run it (ctrl+shift+p → JORAPG: Examples)
 - Support hotkeys
   - ctrl+enter → to output
   - shift+enter → to editor
 
 ## Usage
 
-Open new file and change _'Language Mode'_ to `jqpg` (JQ PlayGround) or
-use a file with `.jqpg` extension.
+Open new file and change _'Language Mode'_ to `jorapg` (jora PlayGround) or
+use a file with `.jorapg` extension.
 
-### Start write jq filters
-
-```
-jq [options] <jq filter>
-[ JSON_TEXT | STRINGS | URL | FILE | COMMAND_LINE ]
-```
-
-### Open official jq examples in jq playground
+### Start write jora filters
 
 ```
-Command Palette... (ctrl + shift + p): jq playground: Examples
+jora <jora filter>
+[ JSON_TEXT | JAVASCRIPT_STRING | FILE ]
+```
+
+### Open official jora examples in jora playground
+
+```
+Command Palette... (ctrl + shift + p): jora playground: Examples
 ```
 
 ### JSON_TEXT
 
 ```json
 # Example 1
-jq '.foo'
+jora foo
 {"foo": 42, "bar": "less interesting data"}
 
 # Example 2
-jq '.foo'
+jora foo
 {
     "foo": 42,
     "bar": "less interesting data"
@@ -96,11 +93,11 @@ jq '.foo'
 
 ```json
 # Example 1: raw input string
-jq -R 'split(" ")'
+jora -R 'split(" ")'
 non arcu risus quis varius quam quisque id diam vel
 
 # Example 2
-jq .[5:10]
+jora .[5:10]
 "less interesting data"
 ```
 
@@ -108,31 +105,31 @@ jq .[5:10]
 
 ```json
 # Example 1
-jq '.[0] | {message: .commit.message, name: .commit.committer.name}'
-https://api.github.com/repos/stedolan/jq/commits?per_page=5
+jora '.[0] | {message: .commit.message, name: .commit.committer.name}'
+https://api.github.com/repos/stedolan/jora/commits?per_page=5
 ```
 
 ### FILE
 
 ```json
 # Example 1: relative pahts
-jq '.foo,.bar'
+jora '.foo,.bar'
 ../files/example.json
 
 # Example 2: absolute pahts
-jq '.foo,.bar'
+jora '.foo,.bar'
 /home/dev/files/example.json
 
 # Example 3: buffer file
-jq '.'
+jora '.'
 Untitled-1
 
 # Example 4: workspace file
-jq '.'
+jora '.'
 opened-workspace-file-with-data.json
 
 # Example 5 (Multifile)
-jq '{
+jora '{
     (input_filename|rtrimstr(".json")) :
     .scripts | keys | map(select(. | contains("test"))) }'
 /home/dev/client/package.json /home/dev/server/package.json
@@ -142,11 +139,11 @@ jq '{
 
 ```json
 # Example 1
-jq '.token'
+jora '.token'
 $ curl -X GET "http://httpbin.org/bearer" -H "accept: application/json" -H "Authorization: Bearer 1234"
 
 # Example 2
-jq -R -s 'split("\n") | .[] | { file: ., lenght: . | length}'
+jora -R -s 'split("\n") | .[] | { file: ., lenght: . | length}'
 $ ls /etc/
 ```
 
@@ -157,19 +154,19 @@ TOKEN = 1234
 ENDPOINT = bearer
 
 # Example 1
-jq '.token'
+jora '.token'
 $ curl -X GET "http://httpbin.org/$ENDPOINT" -H "accept: application/json" -H "Authorization: Bearer $TOKEN"
 
 # Example 2
-jq -R -s 'split("\n") | .[] | { file: ., lenght: . | length}'
+jora -R -s 'split("\n") | .[] | { file: ., lenght: . | length}'
 $ ls $HOME
 ```
 
-### Multiline jq filter
+### Multiline jora filter
 
 ```json
 # Example 1
-jq -r '(map(keys)
+jora -r '(map(keys)
   | add
   | unique) as $cols
   | map(. as $row
@@ -185,7 +182,7 @@ jq -r '(map(keys)
 ]
 
 # Exampmle 2
-jq 'if . == 0 then
+jora 'if . == 0 then
     "zero"
   elif . == 1 then
     "one"
@@ -196,11 +193,11 @@ jq 'if . == 0 then
 2
 ```
 
-### Support jq command line options
+### Support jora command line options
 
 ```json
 # Example 1
-jq --slurp '. + [5] + [6]'
+jora --slurp '. + [5] + [6]'
 [
   1,
   2,
@@ -208,15 +205,15 @@ jq --slurp '. + [5] + [6]'
 ]
 
 # Example 2
-jq --arg var val '.value = $var'
+jora --arg var val '.value = $var'
 {}
 
 # Example 3
-jq --raw-input --slurp 'split("\\n")'
+jora --raw-input --slurp 'split("\\n")'
 foo\nbar\nbaz
 
 # Example 4
-jq -r '(map(keys) | add | unique) as $cols | map(. as $row | $cols | map($row[.])) as $rows | $cols, $rows[] | @csv'
+jora -r '(map(keys) | add | unique) as $cols | map(. as $row | $cols | map($row[.])) as $rows | $cols, $rows[] | @csv'
 [
     {"code": "NSW", "name": "New South Wales", "level":"state", "country": "AU"},
     {"code": "AB", "name": "Alberta", "level":"province", "country": "CA"},
@@ -225,7 +222,7 @@ jq -r '(map(keys) | add | unique) as $cols | map(. as $row | $cols | map($row[.]
 ]
 
 # Example 5
-jq --raw-output '"\(.one)\t\(.two)"'
+jora --raw-output '"\(.one)\t\(.two)"'
 {"one":1,"two":"x"}
 ```
 
@@ -233,20 +230,20 @@ jq --raw-output '"\(.one)\t\(.two)"'
 
 ```json
 # Opened workspace file as filter
-jq opened-workspace-file-filter.jq
+jora opened-workspace-file-filter.jora
 [1, 2, 3, 4, 5]
 
 # Opened workspace file as filter and query input
-jq opened-workspace-file-filter.jq
+jora opened-workspace-file-filter.jora
 opened-workspace-file-with-data.json
 ```
 
 ## Redirect output's filter
 
 ```json
-jq '[.[].url]'
+jora '[.[].url]'
 > tmp.json
-$ curl 'https://api.github.com/repos/stedolan/jq/commits?per_page=5'
+$ curl 'https://api.github.com/repos/stedolan/jora/commits?per_page=5'
 ```
 
 ## Available commands
@@ -262,7 +259,7 @@ http|curl|wget|cat|echo|ls|dir|grep|tail|head|find
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "jq test",
+      "label": "jora test",
       "type": "shell",
       "command": "curl",
       "args": ["-v", "${input:urls}\\&param=${input:param}"],
@@ -273,16 +270,16 @@ http|curl|wget|cat|echo|ls|dir|grep|tail|head|find
     {
       "id": "urls",
       "type": "command",
-      "command": "extension.executeJqInputCommand",
+      "command": "extension.executeJoraInputCommand",
       "args": {
         "filter": ".[3]",
-        "input": "/home/david/dev/tmp/jqpg-examples/tmp.json"
+        "input": "/home/david/dev/tmp/jorapg-examples/tmp.json"
       }
     },
     {
       "id": "param",
       "type": "command",
-      "command": "extension.executeJqInputCommand",
+      "command": "extension.executeJoraInputCommand",
       "args": {
         "filter": ".[2]",
         "input": "[10, 50, 100]",
@@ -303,14 +300,16 @@ http|curl|wget|cat|echo|ls|dir|grep|tail|head|find
 
 ## Contributors
 
-Thanks for cwd module patching [💻](https://github.com/davidnussio/vscode-jq-playground/commits?author=jpandersen87) [Joseph Andersen](https://github.com/jpandersen87)
+Thanks for original vscode-jora-playground [💻](https://github.com/obenjiro/vscode-jora-playground) [David Nussio](https://github.com/davidnussio)
 
-Thanks for updating deps and binary [💻](https://github.com/davidnussio/vscode-jq-playground/commits?author=yozlet) [Yoz Grahame](https://github.com/yozlet)
+Thanks for cwd module patching [💻](https://github.com/obenjiro/vscode-jora-playground/commits?author=jpandersen87) [Joseph Andersen](https://github.com/jpandersen87)
 
-Thanks for input variable [💻](https://github.com/davidnussio/vscode-jq-playground/commits?author=JeffreyMercado) [Jeff Mercado](https://github.com/JeffreyMercado)
+Thanks for updating deps and binary [💻](https://github.com/obenjiro/vscode-jora-playground/commits?author=yozlet) [Yoz Grahame](https://github.com/yozlet)
 
-Thanks for input variable [💻](https://github.com/davidnussio/vscode-jq-playground/commits?author=leonelgalan) [Leonel Galán](https://github.com/leonelgalan)
+Thanks for input variable [💻](https://github.com/obenjiro/vscode-jora-playground/commits?author=JeffreyMercado) [Jeff Mercado](https://github.com/JeffreyMercado)
+
+Thanks for input variable [💻](https://github.com/obenjiro/vscode-jora-playground/commits?author=leonelgalan) [Leonel Galán](https://github.com/leonelgalan)
 
 ## Thanks
 
-I be inspired by [vscode-jq](https://marketplace.visualstudio.com/items?itemName=dandric.vscode-jq)
+I be inspired by [vscode-jora](https://marketplace.visualstudio.com/items?itemName=dandric.vscode-jora)

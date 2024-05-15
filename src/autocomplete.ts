@@ -8,7 +8,7 @@ type Builtins = { [key: string]: { ["documentation"]: string } };
 
 const TYPES: string[] = ["json", "plaintext"];
 
-// jq -n 'builtins | sort | map(split("/")[0]) | unique | map( { (.): {"documentation": ""} }) | add'
+// jora -n 'builtins | sort | map(split("/")[0]) | unique | map( { (.): {"documentation": ""} }) | add'
 
 // const keywords = Object.keys(builtins).concat([
 //   'if',
@@ -19,7 +19,7 @@ const TYPES: string[] = ["json", "plaintext"];
 // ])
 
 export function workspaceFilesCompletionItemProvider() {
-  return vscode.languages.registerCompletionItemProvider("jqpg", {
+  return vscode.languages.registerCompletionItemProvider("jorapg", {
     provideCompletionItems(
       document: vscode.TextDocument,
       position: vscode.Position,
@@ -44,7 +44,7 @@ export function workspaceFilesCompletionItemProvider() {
 }
 
 export function jqLangCompletionItemProvider(builtins: Builtins) {
-  return vscode.languages.registerCompletionItemProvider("jqpg", {
+  return vscode.languages.registerCompletionItemProvider("jorapg", {
     provideCompletionItems(
       document: vscode.TextDocument,
       position: vscode.Position,
@@ -71,7 +71,7 @@ export function jqLangCompletionItemProvider(builtins: Builtins) {
 
 // TODO: add command options to vscode but now introduce twice --
 // export function jqOptionsCompletionItemProvider() {
-//   return vscode.languages.registerCompletionItemProvider("jqpg", {
+//   return vscode.languages.registerCompletionItemProvider("jorapg", {
 //     provideCompletionItems(
 //       document: vscode.TextDocument,
 //       position: vscode.Position,

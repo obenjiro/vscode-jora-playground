@@ -1,13 +1,13 @@
 {
-  "name": "vscode-jq-playground",
-  "displayName": "Visual Code jq playground",
-  "description": "Visual Code integration with jq",
-  "version": "4.3.5",
-  "publisher": "davidnussio",
+  "name": "vscode-jora-playground",
+  "displayName": "Visual Code Jora Playground",
+  "description": "Visual Code integration with Jora",
+  "version": "0.0.1",
+  "publisher": "obenjiro",
   "license": "SEE LICENSE IN LICENSE",
   "author": {
-    "name": "David Nussio",
-    "email": "david.nussio@gmail.com"
+    "name": "Aleksey Okhrimenko",
+    "email": "ai_boy@live.ru"
   },
   "icon": "icon.png",
   "galleryBanner": {
@@ -15,13 +15,13 @@
     "theme": "dark"
   },
   "bugs": {
-    "url": "https://github.com/davidnussio/vscode-jq-playground/issues",
-    "email": "david.nussio@gmail.com"
+    "url": "https://github.com/obenjiro/vscode-jora-playground/issues",
+    "email": "ai_boy@live.ru"
   },
-  "homepage": "https://github.com/davidnussio/vscode-jq-playground/blob/master/README.md",
+  "homepage": "https://github.com/obenjiro/vscode-jora-playground/blob/master/README.md",
   "repository": {
     "type": "git",
-    "url": "https://github.com/davidnussio/vscode-jq-playground.git"
+    "url": "https://github.com/obenjiro/vscode-jora-playground.git"
   },
   "engines": {
     "vscode": "^1.70.0"
@@ -34,48 +34,48 @@
     "query"
   ],
   "activationEvents": [
-    "onLanguage:jqpg",
-    "onLanguage:jq",
+    "onLanguage:jorapg",
+    "onLanguage:jora",
     "onCommand:extension.openExamples",
     "onCommand:extension.openManual",
     "onCommand:extension.openTutorial",
     "onCommand:extension.openPlay",
     "onCommand:extension.runQueryOutput",
     "onCommand:extension.runQueryEditor",
-    "onCommand:extension.executeJqInputCommand",
-    "onCommand:extension.createJqpgFromFilter",
-    "onCommand:extension.jqpgFromFilter"
+    "onCommand:extension.executeJoraInputCommand",
+    "onCommand:extension.createJoraPGFromFilter",
+    "onCommand:extension.jorapgFromFilter"
   ],
   "main": "./dist/extension",
   "contributes": {
     "configuration": {
-      "title": "JQ playground configuration",
+      "title": "jora playground configuration",
       "properties": {
         "jqPlayground.binaryPath": {
           "type": "string",
           "default": "",
-          "description": "Specifies the folder path to jq binary. (/home/user/bin/jq). Leaves empty to automatically download from github.",
+          "description": "Specifies the folder path to jora binary. (/home/user/bin/jora). Leaves empty to automatically download from github.",
           "scope": "application"
         }
       }
     },
     "languages": [
       {
-        "id": "jqpg",
+        "id": "jorapg",
         "extensions": [
-          ".jqpg",
-          ".jq"
+          ".jorapg",
+          ".jora"
         ],
         "configuration": "./language-configuration.json"
       }
     ],
     "grammars": [
       {
-        "language": "jqpg",
-        "scopeName": "source.jqpg",
-        "path": "./syntaxes/jq.tmLanguage.json",
+        "language": "jorapg",
+        "scopeName": "source.jorapg",
+        "path": "./syntaxes/jora.tmLanguage.json",
         "embeddedLanguages": {
-          "source.jq": "jq",
+          "source.jora": "jora",
           "source.json": "json"
         }
       }
@@ -84,37 +84,37 @@
       {
         "command": "extension.openManual",
         "title": "Manual",
-        "category": "JQPG"
+        "category": "JoraPG"
       },
       {
         "command": "extension.openTutorial",
         "title": "Tutorial",
-        "category": "JQPG"
+        "category": "JoraPG"
       },
       {
         "command": "extension.openExamples",
         "title": "Examples",
-        "category": "JQPG"
+        "category": "JoraPG"
       },
       {
         "command": "extension.runQueryOutput",
         "title": "Run query in output",
-        "category": "JQPG"
+        "category": "JoraPG"
       },
       {
         "command": "extension.runQueryEditor",
         "title": "Run query in editor",
-        "category": "JQPG"
+        "category": "JoraPG"
       },
       {
-        "command": "extension.createJqpgFromFilter",
+        "command": "extension.createJoraPGFromFilter",
         "title": "Create playground from filter",
-        "category": "JQPG"
+        "category": "JoraPG"
       },
       {
-        "command": "extension.jqpgFromFilter",
-        "title": "Execute jq filter",
-        "category": "JQPG"
+        "command": "extension.jorapgFromFilter",
+        "title": "Execute jora filter",
+        "category": "JoraPG"
       }
     ],
     "keybindings": [
@@ -122,13 +122,13 @@
         "command": "extension.runQueryOutput",
         "key": "ctrl+enter",
         "mac": "cmd+enter",
-        "when": "editorTextFocus && editorLangId == 'jqpg'"
+        "when": "editorTextFocus && editorLangId == 'jorapg'"
       },
       {
         "command": "extension.runQueryEditor",
         "key": "shift+enter",
         "mac": "shift+enter",
-        "when": "editorTextFocus && editorLangId == 'jqpg'"
+        "when": "editorTextFocus && editorLangId == 'jorapg'"
       }
     ]
   },
@@ -182,14 +182,15 @@
   "dependencies": {
     "crocks": "^0.12.4",
     "eyes": "^0.1.8",
+    "jora": "^1.0.0-beta.10",
     "md5-file": "^5.0.0",
     "node-fetch": "3.3.0",
     "ramda": "0.28.0",
     "shell-quote": "1.7.4",
     "which": "3.0.0"
   },
-  "extensionDependencies": [
-    "jq-syntax-highlighting.jq-syntax-highlighting"
+  "extensionDependencies222": [
+    "jora-syntax-highlighting.jora-syntax-highlighting"
   ],
   "jest": {
     "modulePathIgnorePatterns": [

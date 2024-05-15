@@ -25,8 +25,8 @@ const showWhatsNewMessage = async (
   version: string,
 ): Promise<string | true> => {
   const panel = vscode.window.createWebviewPanel(
-    "jq-changelog",
-    `jq Playground ver. ${version}`,
+    "jora-changelog",
+    `jora Playground ver. ${version}`,
     vscode.ViewColumn.Active,
     {},
   );

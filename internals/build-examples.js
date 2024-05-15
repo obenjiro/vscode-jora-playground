@@ -3,7 +3,7 @@ const YAML = require('yaml')
 const { compose, curry, identity } = require('crocks')
 
 const prepareExample = (data) => {
-  return `jq ${data.program}
+  return `jora ${data.program}
 ${data.input}
 # ${data.output}
 
@@ -39,7 +39,7 @@ function processSectionEntries(section) {
 }
 
 const writeExamples = compose(
-  writeFile('./examples/manual.jqpg'),
+  writeFile('./examples/manual.jorapg'),
   print(process.env.DEBUG),
 )
 

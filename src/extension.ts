@@ -1,9 +1,6 @@
 import * as vscode from "vscode";
 import * as fs from "fs";
 import * as path from "path";
-import * as md5 from "md5-file";
-import * as stream from "stream";
-import { promisify } from "util";
 import fetch from "node-fetch";
 import { parse } from "shell-quote";
 import * as builtins from "./builtins.json";
@@ -13,14 +10,14 @@ import {
   jqLangCompletionItemProvider,
   // jqOptionsCompletionItemProvider,
 } from "./autocomplete";
-import showWhatsNewMessage from "./messages";
+// import showWhatsNewMessage from "./messages";
 import { parseJqCommandArgs, spawnCommand } from "./command-line";
-import { buildJqCommandArgs, JqOptions } from "./jq-options";
+import { buildJqCommandArgs, JqOptions } from "./jora-options";
 import { resolveVariables } from "./variable-resolver";
 import { currentWorkingDirectory } from "./vscode-window";
 import { renderError, renderOutput, RenderOutputType } from "./renderers";
 import { Logger, Debug } from "./logger";
-import { CONFIGS, BINARIES } from "./configs";
+import { CONFIGS } from "./configs";
 import inputBoxFilter from "./inputbox-filter";
 
 interface IJqMatch {
@@ -29,28 +26,26 @@ interface IJqMatch {
   openResult: string;
 }
 
-const pipeline = promisify(stream.pipeline);
-
 const inputBoxFilterHandler = inputBoxFilter();
 
 function openManual() {
   vscode.commands.executeCommand(
     "vscode.open",
-    vscode.Uri.parse("https://stedolan.github.io/jq/manual/"),
+    vscode.Uri.parse("https://discoveryjs.github.io/jora/#article:jora-syntax-complex-examples"),
   );
 }
 
 function openTutorial() {
   vscode.commands.executeCommand(
     "vscode.open",
-    vscode.Uri.parse("https://stedolan.github.io/jq/tutorial/"),
+    vscode.Uri.parse("https://discoveryjs.github.io/jora/#article:getting-started&!anchor=your-first-query"),
   );
 }
 
 function openExamples() {
   fs.readFile(CONFIGS.MANUAL_PATH, {}, (err, data) => {
     vscode.workspace
-      .openTextDocument({ content: data.toString(), language: "jqpg" })
+      .openTextDocument({ content: data.toString(), language: "jorapg" })
       .then((doc) =>
         vscode.window.showTextDocument(doc, vscode.ViewColumn.Active),
       );
@@ -63,7 +58,7 @@ function doRunQuery(openResult: RenderOutputType) {
   const variables = {};
   for (let i = 0; i < editor.document.lineCount; i++) {
     const lineText = editor.document.lineAt(i).text.trim();
-    if (lineText.startsWith("jq")) {
+    if (lineText.startsWith("jora")) {
       break;
     }
     if (lineText.startsWith("#")) {
@@ -81,7 +76,7 @@ function doRunQuery(openResult: RenderOutputType) {
 
   do {
     queryLine = editor.document.lineAt(line).text;
-  } while (queryLine.startsWith("jq") === false && line-- > 0);
+  } while (queryLine.startsWith("jora") === false && line-- > 0);
 
   const range = new vscode.Range(
     new vscode.Position(line, 0),
@@ -94,12 +89,12 @@ function doRunQuery(openResult: RenderOutputType) {
     openResult,
   };
 
-  if (queryLine.startsWith("jq")) {
+  if (queryLine.startsWith("jora")) {
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    executeJqCommand(match, variables);
+    executeJoraCommand(match, variables);
   } else {
     vscode.window.showWarningMessage(
-      "Current line does not contain jq query string",
+      "Current line does not contain jora query string",
     );
   }
 }
@@ -108,61 +103,8 @@ function runQueryCommand(renderType: RenderOutputType) {
   return () => doRunQuery(renderType);
 }
 
-function md5sum(filename) {
-  return fs.existsSync(filename) ? md5.sync(filename) : "";
-}
-
-function downloadBinary(context): Promise<boolean> {
-  const { globalStoragePath } = context;
-
-  return new Promise((resolve, reject) => {
-    if (!BINARIES[process.platform]) {
-      return reject(new Error(`Platform (${process.platform}) not supported!`));
-    }
-
-    if (md5sum(CONFIGS.FILEPATH) === BINARIES[process.platform].checksum) {
-      return resolve(true);
-    }
-    Logger.appendLine(`Download jq binary for platform (${process.platform})`);
-    Logger.appendLine(`  🌌 form url ${BINARIES[process.platform].file}`);
-    Logger.appendLine(`  📂 to dir ${globalStoragePath}`);
-    if (fs.existsSync(globalStoragePath) === false) {
-      fs.mkdirSync(globalStoragePath);
-      Logger.appendLine(`  ✅ dir does not exists: created`);
-    }
-    Logger.appendLine("  💤 start downloading...");
-    return fetch(BINARIES[process.platform].file)
-      .then((res) => {
-        if (!res.ok) {
-          reject(new Error(`Unexpected response ${res.statusText}`));
-        }
-
-        return pipeline(res.body, fs.createWriteStream(CONFIGS.FILEPATH));
-      })
-      .then(() => {
-        Logger.appendLine("");
-        if (md5sum(CONFIGS.FILEPATH) !== BINARIES[process.platform].checksum) {
-          reject(new Error("Download file checksum error"));
-        }
-        if (!/^win32/.test(process.platform)) {
-          fs.chmodSync(CONFIGS.FILEPATH, "0755");
-        }
-        Logger.appendLine("  ✅ [ OK ]");
-        Logger.show();
-        resolve(true);
-      })
-      .catch((err) => {
-        Logger.appendLine("");
-        Logger.appendLine("  💥 [ ERROR ]");
-        Logger.appendLine(`  💥 ${err}`);
-        Logger.show();
-        reject(
-          new Error(
-            " *** An error occurred during activation.\n *** Try again or download jq binary manually.\n *** Check vscode configuration → Jq Playground: Binary Path",
-          ),
-        );
-      });
-  });
+function downloadBinary(): Promise<boolean> {
+  return Promise.resolve(true);
 }
 
 function jqMatch(
@@ -184,7 +126,7 @@ function findRegexes(document: vscode.TextDocument): IJqMatch[] {
   const matches: IJqMatch[] = [];
   for (let i = 0; i < document.lineCount; i++) {
     const line = document.lineAt(i);
-    const regex = /^(jq)\s+(.+?)/g;
+    const regex = /^(jora)\s+(.+?)/g;
     regex.lastIndex = 0;
     const text = line.text.substr(0, 1000);
     while (regex.exec(text)) {
@@ -215,7 +157,7 @@ function provideCodeLenses(document: vscode.TextDocument) {
     .reduce((a, b) => a.concat(b));
 }
 
-async function executeJqInputCommand({
+async function executeJoraInputCommand({
   cwd = currentWorkingDirectory(),
   env,
   rawArgs,
@@ -322,13 +264,13 @@ function getFiles(cwd: string, context: string): ReadonlyArray<string> {
   return files.map((file) => getFileName(cwd, file));
 }
 
-function executeJqCommand(params, variables) {
+function executeJoraCommand(params, variables) {
   const { document } = params;
   const cwd = currentWorkingDirectory();
 
   const queryLine: string = document
     .lineAt(params.range.start.line)
-    .text.replace(/jq\s+/, "");
+    .text.replace(/jora\s+/, "");
 
   const args = parseJqCommandArgs(queryLine);
 
@@ -344,7 +286,7 @@ function executeJqCommand(params, variables) {
       line++
     ) {
       documentLine = document.lineAt(line).text;
-      // Is next jq filter?
+      // Is next jora filter?
       queryLineWithoutOpts += documentLine;
       lineOffset++;
     }
@@ -450,7 +392,7 @@ function executeJqCommand(params, variables) {
     let line = params.range.start.line + lineOffset;
     while (line < document.lineCount) {
       const lineText = document.lineAt(line++).text;
-      if (lineText.search(/^(jq)\s+(.+?)|#/) === 0) {
+      if (lineText.search(/^(jora)\s+(.+?)|#/) === 0) {
         break;
       }
       contextLines.push(`${lineText}\n`);
@@ -459,29 +401,29 @@ function executeJqCommand(params, variables) {
   }
 }
 
-function showWelcomePage(
-  version: string,
-  previousVersion: string | undefined,
-): boolean {
-  // Fresh install, no previous version
-  if (previousVersion === undefined) {
-    return true;
-  }
+// function showWelcomePage(
+//   version: string,
+//   previousVersion: string | undefined,
+// ): boolean {
+//   // Fresh install, no previous version
+//   if (previousVersion === undefined) {
+//     return true;
+//   }
 
-  const [major, minor] = version.split(".");
-  const [prevMajor, prevMinor] = previousVersion.split(".");
-  if (
-    // Patch updates
-    (major === prevMajor && minor === prevMinor) ||
-    // Don't notify on downgrades
-    major < prevMajor ||
-    (major === prevMajor && minor < prevMinor)
-  ) {
-    return false;
-  }
+//   const [major, minor] = version.split(".");
+//   const [prevMajor, prevMinor] = previousVersion.split(".");
+//   if (
+//     // Patch updates
+//     (major === prevMajor && minor === prevMinor) ||
+//     // Don't notify on downgrades
+//     major < prevMajor ||
+//     (major === prevMajor && minor < prevMinor)
+//   ) {
+//     return false;
+//   }
 
-  return true;
-}
+//   return true;
+// }
 
 function configureSubscriptions(context: vscode.ExtensionContext) {
   context.subscriptions.push(
@@ -507,26 +449,26 @@ function configureSubscriptions(context: vscode.ExtensionContext) {
   );
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "extension.createJqpgFromFilter",
+      "extension.createJoraPGFromFilter",
       inputBoxFilterHandler(true),
     ),
   );
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "extension.jqpgFromFilter",
+      "extension.jorapgFromFilter",
       inputBoxFilterHandler(false),
     ),
   );
   context.subscriptions.push(
     vscode.commands.registerCommand(
-      "extension.executeJqInputCommand",
-      executeJqInputCommand,
+      "extension.executeJoraInputCommand",
+      executeJoraInputCommand,
     ),
   );
   context.subscriptions.push(
     vscode.commands.registerCommand(
       CONFIGS.EXECUTE_JQ_COMMAND,
-      executeJqCommand,
+      executeJoraCommand,
     ),
   );
   context.subscriptions.push(
@@ -544,7 +486,7 @@ async function checkEnvironment(
   context: vscode.ExtensionContext,
 ): Promise<string | true> {
   const jqPlayground = vscode.extensions.getExtension(
-    "davidnussio.vscode-jq-playground",
+    "obenjiro.vscode-jora-playground",
   );
   const currentVersion = jqPlayground.packageJSON.version;
   const previousVersion = context.globalState.get<string>(
@@ -556,17 +498,17 @@ async function checkEnvironment(
   // Update stored version
   context.globalState.update(CONFIGS.JQ_PLAYGROUND_VERSION, currentVersion);
   // Show update message
-  if (showWelcomePage(currentVersion, previousVersion)) {
-    const showExamples = context.globalState.get<boolean>(
-      CONFIGS.SHOW_EXAMPLES,
-    );
-    context.globalState.update(CONFIGS.SHOW_EXAMPLES, false);
-    if (showExamples) {
-      openExamples();
-    }
+  // if (showWelcomePage(currentVersion, previousVersion)) {
+  //   const showExamples = context.globalState.get<boolean>(
+  //     CONFIGS.SHOW_EXAMPLES,
+  //   );
+  //   context.globalState.update(CONFIGS.SHOW_EXAMPLES, false);
+  //   if (showExamples) {
+  //     openExamples();
+  //   }
 
-    return showWhatsNewMessage(context, currentVersion);
-  }
+  //   return showWhatsNewMessage(context, currentVersion);
+  // }
   return true;
 }
 
@@ -585,12 +527,12 @@ async function setupEnvironment(
     return true;
   }
   // Default path, automatically downloaded from github
-  // https://github.com/stedolan/jq
+  // https://github.com/stedolan/jora
   CONFIGS.FILEPATH = path.join(
     context.globalStorageUri.fsPath,
     CONFIGS.FILENAME,
   );
-  return downloadBinary(context);
+  return downloadBinary();
 }
 
 export function activate(context: vscode.ExtensionContext) {
@@ -603,7 +545,7 @@ export function activate(context: vscode.ExtensionContext) {
     .then(() => checkEnvironment(context))
     .catch((error) => {
       vscode.window.showErrorMessage(
-        " 🔥 Extension activation error! Check jq output console for more details",
+        " 🔥 Extension activation error! Check jora output console for more details",
       );
       Logger.appendLine("");
       Logger.appendLine("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥");

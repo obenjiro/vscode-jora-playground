@@ -6,8 +6,8 @@ import {
   spawnCommand,
 } from "../command-line";
 
-describe("Spawn jq command line", () => {
-  test("extract jq command options and filter", () => {
+describe("Spawn jora command line", () => {
+  test("extract jora command options and filter", () => {
     expect(parseCommandArgs("--arg data value .data")).toEqual([
       "--arg",
       "data",
@@ -62,7 +62,7 @@ describe("Spawn jq command line", () => {
 
   // eslint-disable-next-line jest/no-done-callback
   test("should execute command", (done) => {
-    const jqCommand = spawnCommand("/usr/bin/jq");
+    const jqCommand = spawnCommand("/usr/bin/jora");
 
     const renderError = (data) => {
       done(bufferToString(data));

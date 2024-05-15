@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
-import { spawn, CommonSpawnOptions } from "child_process";
+import { CommonSpawnOptions } from "child_process";
+import fs from 'fs';
 
 import { join, match, replace, trim } from "ramda";
 import {
@@ -16,6 +17,8 @@ import {
   reduce,
   safeAfter,
 } from "crocks";
+
+import jora from 'jora';
 
 // const jqCommandOptions :: { option: String, optionValue: Number }
 export const jqCommandOptions = Object.freeze({
@@ -130,54 +133,43 @@ export const spawnCommand = curry(
     args: string[],
     options: CommonSpawnOptions,
     input: string | null,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     timeout = 10000,
   ) =>
     Async((rej, res) => {
-      const result = { stdout: [], stderr: [] };
-
       // eslint-disable-next-line no-param-reassign
       options.stdio = [input ? "pipe" : "ignore", "pipe", "pipe"];
 
-      const proc = spawn(command, args, options);
+      // const proc = spawn(command, args, options);
 
-      const rejErr = () => {
-        result.stderr.push("🔥 JQ query:\n\n");
-        result.stderr.push(`${args.join(" ")}\n\n`);
-        result.stderr.push("🔥 Error:\n\n");
-      };
+      try {
+        let inputParsed = null;
 
-      proc.on("error", rejErr);
-
-      if (input) {
-        proc.stdin.on("error", rejErr);
-        proc.stdin.write(input);
-        proc.stdin.end();
-      }
-
-      proc.stdout.on("error", rejErr);
-      proc.stdout.on("data", (data) => {
-        result.stdout.push(data);
-      });
-
-      proc.stderr.on("error", rejErr);
-      proc.stderr.on("data", (data) => {
-        result.stderr.push(data);
-      });
-
-      const commandTimeout = setTimeout(() => {
-        proc.kill("SIGABRT");
-        result.stderr.push(
-          `Command aborted: ${timeout} seconds timeout reached!`,
-        );
-      }, timeout);
-
-      proc.on("close", (code) => {
-        clearTimeout(commandTimeout);
-        if (code === 0) {
-          res([result.stderr.join(""), result.stdout.join("")]);
-        } else {
-          rej(result.stderr.join(""));
+        if (input === null) {
+          input = args[args.length - 1];
+          args.splice(-1);
         }
-      });
+
+        // file
+        if (typeof input === 'string' && (input.startsWith('/') || input.startsWith('.'))) {
+          input = fs.readFileSync(input, 'utf-8');
+        }
+
+        try {
+          inputParsed = JSON.parse(input);
+        } catch { /* empty */ }
+        try {
+          inputParsed = eval(input);
+        } catch { /* empty */ }
+
+        if (!inputParsed) {
+          throw new Error('Failed to parse input: ' + input)
+        }
+
+        const joraResult = jora(args.join(" "))(inputParsed);
+        res(["", JSON.stringify(joraResult, null, 2)]);
+      } catch(e) {
+        rej("🔥 jora query:\n\n" + `${args.join(" ")}\n\n` + "🔥 Error:\n\n" + e.message);
+      }
     }),
 );

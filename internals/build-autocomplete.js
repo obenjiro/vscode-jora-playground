@@ -17,7 +17,7 @@ const processMatches = (title, body, examples = []) => {
           documentation: `## ${title}\n${body}\n${examples.reduce(
             (acc, e) =>
               acc.concat(
-                '- `jq ' +
+                '- `jora ' +
                   e.program +
                   '`\nInput: `' +
                   e.input +
