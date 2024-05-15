@@ -1,5 +1,7 @@
 # VSCode jora playground
 
+![jora-manual-examples](https://raw.githubusercontent.com/obenjiro/vscode-jora-playground/master/icon.png)
+
 A fork of vscode-jora-playground. Create a notebook with power of [jora](https://github.com/discoveryjs/jora).
 
 Check jora [tutorial](https://discoveryjs.github.io/jora/#article:getting-started&!anchor=your-first-query) or [examples](https://discoveryjs.github.io/jora/#article:jora-syntax-complex-examples)
